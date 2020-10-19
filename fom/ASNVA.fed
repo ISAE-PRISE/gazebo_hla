@@ -1,0 +1,68 @@
+;; $Id$
+(Fed
+  (Federation ASNVA)
+  (FedVersion v1.0)
+  (Federate "fed" "Public")
+  (Spaces
+    (Space "Geo"
+      (Dimension X)
+      (Dimension Y)
+      (Dimension Z)
+    )
+  )
+  (objects
+    (class ObjectRoot
+      (attribute privilegeToDelete reliable timestamp)
+      (Class RTIprivate)
+      
+      
+      ;; Implémentation de la FOM VirtualAir
+      (Class BaseEntity
+        (Attribute WorldLocation RELIABLE TIMESTAMP)
+        (Attribute Orientation RELIABLE TIMESTAMP)
+        (Attribute VelocityVector RELIABLE TIMESTAMP)
+        (Attribute AccelerationVector RELIABLE TIMESTAMP)
+        (Attribute AngularVelocityVector RELIABLE TIMESTAMP)
+	(Attribute Fuel RELIABLE TIMESTAMP)
+        (Attribute VisualModel RELIABLE TIMESTAMP)
+	(Attribute Liveries RELIABLE TIMESTAMP)
+
+	(Class PhysicalEntity
+          (Class Platform
+		(Class Aircraft) 
+	  )
+        )
+      )
+      
+      ;; Implémentation de la FOM AviationSimNet
+      (Class aircraft
+        (Attribute aircraftType RELIABLE RECEIVE)
+        (Attribute latitude RELIABLE RECEIVE)
+        (Attribute longitude RELIABLE RECEIVE)
+        (Attribute altitudeMSL RELIABLE RECEIVE)
+        (Attribute trueHeading RELIABLE RECEIVE)
+        (Attribute speed RELIABLE RECEIVE)		
+        (Attribute pitch RELIABLE RECEIVE)
+        (Attribute roll RELIABLE RECEIVE)
+        (Attribute landingGear RELIABLE RECEIVE)
+        (Attribute flaps RELIABLE RECEIVE)
+      )
+      
+    )
+  )
+  (Interactions
+    (Class InteractionRoot BEST_EFFORT RECEIVE
+      (Class RTIprivate BEST_EFFORT RECEIVE)
+	(Class VolFormation RELIABLE TIMESTAMP
+	(Sec_Level "Public")
+	(Parameter RefLon)
+	(Parameter RefLat)
+	(Parameter RefAlt)
+	(Parameter RefDst)
+	(Parameter RefVit)	 
+	(Parameter RefCap)	
+	(Parameter RefForm)
+      )
+    )
+  )
+)
